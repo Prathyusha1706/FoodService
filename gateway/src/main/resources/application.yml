@@ -1,0 +1,35 @@
+server:
+  port: 9006
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: user
+          uri: lb://user
+          predicates:
+            - Path=/users/**
+
+        - id: item
+          uri: lb://item
+          predicates:
+            - Path=/items/**
+
+        - id: menu
+          uri: lb://menu
+          predicates:
+            - Path=/menus/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
